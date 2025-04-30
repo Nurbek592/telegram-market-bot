@@ -1,0 +1,18 @@
+import logging
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+import random
+
+TOKEN = '7356336676:AAGOWBvJIoxpjUk0MEtzLIiIE6dlyUC9HzQ'
+
+logging.basicConfig(level=logging.INFO)
+
+async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    decision = random.choice(["Покупать", "Продавать", "Ожидать"])
+    probability = random.randint(60, 95)
+    await update.message.reply_text(f"{decision} (вероятность: {probability}%)")
+
+if __name__ == '__main__':
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(CommandHandler("signal", signal))
+    app.run_polling()
